@@ -3,6 +3,8 @@ package com.desafio.estoque.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.desafio.estoque.dto.MensagemDTO;
 import com.desafio.estoque.exception.UsuarioNotFoundException;
@@ -18,9 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
+@Service
 public class UsuarioService {
 	
 	private UsuarioRepository repository;
+	private PasswordEncoder encoder;
 
 	public List<Usuario> getAll() {
 		return this.repository.findAll();
@@ -31,6 +35,7 @@ public class UsuarioService {
 	}
 	
 	public MensagemDTO criarUsuario(Usuario usuario) {
+		usuario.setSenha(encoder.encode(usuario.getSenha()));
 		this.repository.save(usuario);
 		return getMensagem("Usuário " + usuario.getCpf() + " inserido com sucesso!");
 	}
@@ -44,6 +49,16 @@ public class UsuarioService {
 	public void deletarUsuario(String cpf) throws UsuarioNotFoundException {
 		Usuario usuario = verifyExistsUsuario(cpf);
 		this.repository.delete(usuario);
+	}
+	
+	public MensagemDTO logar(String email, String senha) {
+		Usuario usuario = this.repository.findByEmail(email);
+		if(usuario != null) {
+			Boolean valido = encoder.matches(senha, usuario.getSenha());
+			if(valido) return getMensagem("Senha inválida!");
+			else return getMensagem("Usuario com e-mail " + email + " logado!");
+		}
+		else return getMensagem("Usuario com e-mail " + email + " não existe!");
 	}
 	
 	private Usuario verifyExistsUsuario(String cpf) throws UsuarioNotFoundException {
