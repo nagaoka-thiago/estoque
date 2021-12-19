@@ -55,7 +55,7 @@ public class UsuarioService {
 		Usuario usuario = this.repository.findByEmail(email);
 		if(usuario != null) {
 			Boolean valido = encoder.matches(senha, usuario.getSenha());
-			if(valido) return getMensagem("Senha inválida!");
+			if(!valido) return getMensagem("Senha inválida!");
 			else return getMensagem("Usuario com e-mail " + email + " logado!");
 		}
 		else return getMensagem("Usuario com e-mail " + email + " não existe!");

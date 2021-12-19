@@ -1,9 +1,11 @@
 package com.desafio.estoque.model;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.desafio.estoque.embedded.ComponenteId;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +17,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "usuarios")
-public class Usuario{
-	
-	@Id
-	private String cpf;
-	
-	@Column(nullable = false)
-	private String nome;
-	
-	@Column(nullable = false)
-	private String email;
-	
-	@Column(nullable = false)
-	private String senha;
+@Table(name = "componentes")
+public class Componente {
+	@EmbeddedId
+	private ComponenteId id;
 	
 	@Column
-	private Boolean e_admin;
+	private Integer quantidade;
 }
