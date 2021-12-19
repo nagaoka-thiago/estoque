@@ -46,8 +46,27 @@ public class ProdutoController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MensagemDTO criarProduto(@RequestBody Produto produto) {
-		return this.service.criarProduto(produto); /* Insere um novo produto, mas como havia colocado cascade para que os ingredientes
-		 											fossem inseridos automaticamente, não está funcionando. */
+		return this.service.criarProduto(produto); /* Insere um novo produto e seus ingredientes.
+		 												Exemplo de corpo do Produto a ser inserido
+														{
+														    "nome": "Nome do produto",
+														    "imagem_url": "URL da imagem do produto",
+														    "componentes": [
+														        {
+														            "id": {
+														                "ingrediente": {
+														                    "nome": "Ingrediente 1",
+														                    "unidade_medida": "dois caracteres",
+														                    "preco_unitario": preço do ingrediente
+														                }
+														            },
+														            "quantidade": 9
+														        }
+														        ...
+														    ],
+														    "preco": 0.0f -- Esse preço é calculado depois.
+														}
+																 */
 	}
 	
 	@PutMapping("/{id}")

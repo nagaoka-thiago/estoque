@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.desafio.estoque.dto.MensagemDTO;
 import com.desafio.estoque.exception.ProdutoNotFoundException;
+import com.desafio.estoque.model.Componente;
 import com.desafio.estoque.model.Ingrediente;
 import com.desafio.estoque.model.Produto;
 import com.desafio.estoque.repository.ComponenteRepository;
@@ -40,16 +41,18 @@ public class ProdutoService {
 	
 	public MensagemDTO criarProduto(Produto produto) {
 		
-		List<Ingrediente> ingredientes = produto.getComponentes().stream()
+		List<Componente> componentes = produto.getComponentes();
+		List<Ingrediente> ingredientes = componentes.stream()
 												.map(c -> c.getId().getIngrediente())
 												.collect(Collectors.toList());
-		ingredienteRepository.saveAll(ingredientes);
+		this.ingredienteRepository.saveAll(ingredientes); // Primeiramente salvo os ingredientes do produto.
+		produto.setComponentes(null);
 		
-		this.produtoRepository.save(produto);
+		Produto newProduto = this.produtoRepository.save(produto); // Depois salvo o próprio produto sem os componentes.
 		
-		produto.getComponentes().stream().forEach(c -> c.getId().getProduto().setId(produto.getId()));
-		produto.getComponentes().stream()
-								.map(componenteRepository::save);
+		componentes.stream().forEach(c -> c.getId().setProduto(newProduto)); // Seto o produto salvo nos ComponenteId dos Componentes.
+		
+		this.componenteRepository.saveAll(componentes); // Salvo os componentes.
 		
 		return getMensagem("Produto " + produto.getId() + " inserido com sucesso!");
 		
@@ -58,7 +61,7 @@ public class ProdutoService {
 	public MensagemDTO atualizarProduto(Integer id, Produto produto) throws ProdutoNotFoundException{
 		verifyExistProduto(id);
 		
-		this.produtoRepository.save(produto);
+		this.produtoRepository.save(produto); // Apenas atualizo os campos do Produto, como o nome e imagem_url.
 		return getMensagem("Produto " + produto.getId() + " atualizado com sucesso!");
 	}
 	
@@ -66,12 +69,12 @@ public class ProdutoService {
 		Produto produto = verifyExistProduto(id);
 		
 		produto.getComponentes().stream()
-									.forEach(componenteRepository::delete);
+									.forEach(componenteRepository::delete); // Primeiro deleto os componentes.
 		produto.getComponentes().stream()
 									.map(c -> c.getId().getIngrediente())
-									.forEach(ingredienteRepository::delete);
+									.forEach(ingredienteRepository::delete); // Depois deleto os ingredientes que compõem o produto a ser deletado.
 
-		this.produtoRepository.delete(produto);
+		this.produtoRepository.delete(produto); // Por último, deleto o produto.
 	}
 	
 	private Produto verifyExistProduto(Integer id) throws ProdutoNotFoundException{
