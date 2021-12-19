@@ -44,6 +44,8 @@ Diferenciais:
 Lembrando que os diferenciais são algo a mais, então só faça caso ja tenha conhecimento e esteja familiarizado.
 
 # O que consegui solucionar
-- Quando os dados são inseridos manualmente no banco de dados, no meu caso usei MySQL, ele realmente lista todos os produtos com seus ingredientes.
+- Ele lista, cria, atualiza e deleta todos os produtos e seus ingredientes como solicitado pelo desafio.
 - Quando o usuário é inserido no banco de dados, sua senha é criptografada.
 - O upload de imagem é feito usando o URL da imagem.
+- O esquema do banco de dados é esse:
+![Esquema do banco de dados](./imgs/desafio_banco_esquema.png)
