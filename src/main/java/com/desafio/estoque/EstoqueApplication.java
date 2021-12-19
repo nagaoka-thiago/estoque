@@ -14,6 +14,7 @@ public class EstoqueApplication {
 		SpringApplication.run(EstoqueApplication.class, args);
 	}
 
+	// Instanciando o encoder para que seja usado no UsuarioController.
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

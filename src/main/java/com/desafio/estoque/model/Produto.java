@@ -37,11 +37,13 @@ public class Produto {
 	@Column
 	private String imagem_url;
 	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}) // Coloquei em cascata as operações de inserir, atualizar e deletar componentes,
+																						// mas não funciona.
 	@JoinColumn(name = "id_produto")
 	@JsonManagedReference
 	private List<Componente> componentes;
 	
+	// Calcula o preço do produto a partir dos ingredientes que o compõem.
 	public Float getPreco() {
 		Float sum = 0f;
 		for(Float precoByIngrediente : this.componentes.stream().map(i -> i.getQuantidade() * i.getId().getIngrediente().getPreco_unitario()).collect(Collectors.toList())) {

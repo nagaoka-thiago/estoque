@@ -37,32 +37,32 @@ public class UsuarioController {
 	
 	@GetMapping
 	public List<Usuario> getAll() {
-		return this.service.getAll();
+		return this.service.getAll(); // Lista todos os usuários.
 	}
 	
 	@GetMapping("/{cpf}")
 	public Usuario getByCpf(@PathVariable("cpf") String cpf) throws UsuarioNotFoundException {
-		return this.service.getByCpf(cpf);
+		return this.service.getByCpf(cpf); // Retorna o usuário com um determinado CPF.
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MensagemDTO criarUsuario(@RequestBody Usuario usuario) {
-		return this.service.criarUsuario(usuario);
+		return this.service.criarUsuario(usuario); // Insere um novo usuário não administrador e criptografa a senha.
 	}
 	
 	@PostMapping("/logar")
 	public MensagemDTO logar(@RequestParam("email") String email, @RequestParam("senha") String senha) {
-		return this.service.logar(email, senha);
+		return this.service.logar(email, senha); // Confere se o email e a senha passada são os registrados no banco de dados.
 	}
 	
 	@PutMapping("/{cpf}")
 	public MensagemDTO atualizarUsuario(@PathVariable("cpf") String cpf, @RequestBody Usuario usuario) throws UsuarioNotFoundException {
-		return this.service.atualizarUsuario(cpf, usuario);
+		return this.service.atualizarUsuario(cpf, usuario); // Atualiza o usuario, retorna erro se não existe.
 	}
 	
 	@DeleteMapping("/{cpf}")
 	public void deletarUsuario(@PathVariable("cpf") String cpf) throws UsuarioNotFoundException {
-		this.service.deletarUsuario(cpf);
+		this.service.deletarUsuario(cpf); // Deleta o usuario, retorna erro se não existe.
 	}
 }

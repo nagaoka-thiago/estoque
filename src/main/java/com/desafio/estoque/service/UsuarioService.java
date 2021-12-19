@@ -35,11 +35,12 @@ public class UsuarioService {
 	}
 	
 	public MensagemDTO criarUsuario(Usuario usuario) {
-		usuario.setSenha(encoder.encode(usuario.getSenha()));
+		usuario.setSenha(encoder.encode(usuario.getSenha())); // Criptografa a senha passada pelo usuário
 		this.repository.save(usuario);
 		return getMensagem("Usuário " + usuario.getCpf() + " inserido com sucesso!");
 	}
 	
+	// Tomar cuidado ao atualizar o usuário para não mudar a senha.
 	public MensagemDTO atualizarUsuario(String cpf, Usuario usuario) throws UsuarioNotFoundException {
 		verifyExistsUsuario(cpf);
 		this.repository.save(usuario);
@@ -54,7 +55,7 @@ public class UsuarioService {
 	public MensagemDTO logar(String email, String senha) {
 		Usuario usuario = this.repository.findByEmail(email);
 		if(usuario != null) {
-			Boolean valido = encoder.matches(senha, usuario.getSenha());
+			Boolean valido = encoder.matches(senha, usuario.getSenha()); // Verifica se a senha passada através do login bate com a senha criptografada no banco de dados.
 			if(!valido) return getMensagem("Senha inválida!");
 			else return getMensagem("Usuario com e-mail " + email + " logado!");
 		}

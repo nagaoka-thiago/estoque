@@ -23,12 +23,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Service
 public class ProdutoService {
-	private ProdutoRepository produtoRepository;
-	private IngredienteRepository ingredienteRepository;
-	private ComponenteRepository componenteRepository;
+	private ProdutoRepository repository;
 	
 	public List<Produto> getAll() {
-		return this.produtoRepository.findAll();
+		return this.repository.findAll();
 	}
 
 	public Produto getById(Integer id) throws ProdutoNotFoundException{
@@ -37,7 +35,7 @@ public class ProdutoService {
 	}
 	
 	public MensagemDTO criarProduto(Produto produto) {
-		this.produtoRepository.save(produto);
+		this.repository.save(produto);
 		return getMensagem("Produto " + produto.getId() + " inserido com sucesso!");
 		
 	}
@@ -45,18 +43,18 @@ public class ProdutoService {
 	public MensagemDTO atualizarProduto(Integer id, Produto produto) throws ProdutoNotFoundException{
 		verifyExistProduto(id);
 		
-		this.produtoRepository.save(produto);
+		this.repository.save(produto);
 		return getMensagem("Produto " + produto.getId() + " atualizado com sucesso!");
 	}
 	
 	public void deletarProduto(Integer id) throws ProdutoNotFoundException {
 		Produto produto = verifyExistProduto(id);
 
-		this.produtoRepository.delete(produto);
+		this.repository.delete(produto);
 	}
 	
 	private Produto verifyExistProduto(Integer id) throws ProdutoNotFoundException{
-		return this.produtoRepository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
+		return this.repository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
 	}
 	
 	private MensagemDTO getMensagem(String mensagem) {

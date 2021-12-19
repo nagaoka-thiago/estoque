@@ -23,5 +23,6 @@ public class Componente {
 	private ComponenteId id;
 	
 	@Column
-	private Integer quantidade;
+	private Integer quantidade; // Como mencionado no escopo do problema, guarda a quantidade 
+								// de um ingrediente que é usado para fazer um produto.
 }

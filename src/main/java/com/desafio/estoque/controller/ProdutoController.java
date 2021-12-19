@@ -35,28 +35,29 @@ public class ProdutoController {
 	
 	@GetMapping
 	public List<Produto> getAll() {
-		return this.service.getAll();
+		return this.service.getAll(); // Lista todos os produtos e seus ingredientes.
 	}
 	
 	@GetMapping("/{id}")
 	public Produto getById(@PathVariable("id") Integer id) throws ProdutoNotFoundException{
-		return this.service.getById(id);
+		return this.service.getById(id); // Retorna o produto com esse id, se não encontra retorna um erro.
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MensagemDTO criarProduto(@RequestBody Produto produto) {
-		return this.service.criarProduto(produto);
+		return this.service.criarProduto(produto); /* Insere um novo produto, mas como havia colocado cascade para que os ingredientes
+		 											fossem inseridos automaticamente, não está funcionando. */
 	}
 	
 	@PutMapping("/{id}")
 	public MensagemDTO atualizarProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) throws ProdutoNotFoundException {
-		return this.service.atualizarProduto(id, produto);
+		return this.service.atualizarProduto(id, produto); /* Atualiza um produto, mas não está funcionando pelo mesmo motivo do anterior. */
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarProduto(@PathVariable("id") Integer id) throws ProdutoNotFoundException {
-		this.service.deletarProduto(id);
+		this.service.deletarProduto(id); /* Deleta um produto, mas não está funcionando. */
 	}
 }

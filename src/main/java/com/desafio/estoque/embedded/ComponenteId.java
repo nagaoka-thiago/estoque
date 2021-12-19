@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
+// Classe criada por causa de dois campos pertencerem a chave primária.
 public class ComponenteId implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
