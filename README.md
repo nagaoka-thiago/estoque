@@ -49,3 +49,4 @@ Lembrando que os diferenciais são algo a mais, então só faça caso ja tenha c
 - O upload de imagem é feito usando o URL da imagem.
 - O esquema do banco de dados é esse:
 ![Esquema do banco de dados](./imgs/desafio_banco_esquema.png)
+- O URL para que sejam feitas as requisições ao API é: localhost:8080/api/v1/produtos
