@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 
 import com.desafio.estoque.model.Ingrediente;
 import com.desafio.estoque.model.Produto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,16 +21,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
+
 // Classe criada por causa de dois campos pertencerem a chave primária.
 public class ComponenteId implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_produto")
-	@JsonBackReference
 	private Produto produto;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@OneToOne
 	@JoinColumn(name = "id_ingrediente")
 	private Ingrediente ingrediente;
 }

@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "produtos")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Produto.class)
 public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +39,8 @@ public class Produto {
 	@Column
 	private String imagem_url;
 	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}) // Coloquei em cascata as operações de inserir, atualizar e deletar componentes,
-																						// mas não funciona.
+	@OneToMany
 	@JoinColumn(name = "id_produto")
-	@JsonManagedReference
 	private List<Componente> componentes;
 	
 	// Calcula o preço do produto a partir dos ingredientes que o compõem.

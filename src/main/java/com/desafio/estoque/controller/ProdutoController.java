@@ -52,12 +52,12 @@ public class ProdutoController {
 	
 	@PutMapping("/{id}")
 	public MensagemDTO atualizarProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) throws ProdutoNotFoundException {
-		return this.service.atualizarProduto(id, produto); /* Atualiza um produto, mas não está funcionando pelo mesmo motivo do anterior. */
+		return this.service.atualizarProduto(id, produto); /* Atualiza um produto, retorna erro ao não encontrar com id. */
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarProduto(@PathVariable("id") Integer id) throws ProdutoNotFoundException {
-		this.service.deletarProduto(id); /* Deleta um produto, mas não está funcionando. */
+		this.service.deletarProduto(id); /* Deleta um produto, retorna erro ao não encontrar com id. */
 	}
 }
